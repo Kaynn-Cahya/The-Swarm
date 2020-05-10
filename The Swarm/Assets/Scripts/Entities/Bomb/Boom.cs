@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Entities.Bomb {
-    [RequireComponent(typeof(Collision2D))]
+namespace Entities {
+    [RequireComponent(typeof(Collider2D))]
     public class Boom : MonoBehaviour {
 
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿using MyBox;
 using UnityEngine;
 
-namespace Entities.Bomb {
-    [RequireComponent(typeof(Collision2D), typeof(Rigidbody2D))]
+namespace Entities {
+    [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class Bomb : MonoBehaviour {
         [SerializeField, Tooltip("Distance to cover before the bomb explodes"), PositiveValueOnly]
         private float boomDistance;
@@ -46,7 +46,7 @@ namespace Entities.Bomb {
             #endregion
         }
 
-        private void Throw(Vector2 throwDirection) {
+        internal void Throw(Vector2 throwDirection) {
             rb.velocity = throwDirection * moveSpeed;
         }
 
