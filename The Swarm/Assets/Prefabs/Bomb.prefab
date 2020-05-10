@@ -177,7 +177,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2207004261276119179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1935c537f17d9fd42b77589dcdf11a17, type: 2}
   m_CullingMode: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boomDistance: 7.5
-  moveSpeed: 3
+  moveSpeed: 10
   boomTrigger: {fileID: 1541689775}
   explosionEffect: {fileID: 373956138569284707, guid: 3cd11c418a0079949a5e4a8a04121527,
     type: 3}
