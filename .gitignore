@@ -3,6 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 [Ll]ibrary/
+/[Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -58,5 +59,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+<<<<<<< HEAD
 
 The Swarm/Library/
+=======
+The Swarm/Library/ArtifactDB
+The Swarm/Library/ArtifactDB
+>>>>>>> JunRong
