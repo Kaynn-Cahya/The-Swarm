@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Entities {
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class Bomb : MonoBehaviour {
-        [SerializeField, Tooltip("Distance to cover before the bomb explodes"), PositiveValueOnly]
-        private float boomDistance;
+        [SerializeField, Tooltip("Time before bomb explodes automatically"), PositiveValueOnly]
+        private float boomTimer;
 
         [SerializeField, Tooltip("The fly speed of the bomb"), PositiveValueOnly]
         private float moveSpeed;
 
-        [SerializeField, Tooltip("The explosion to trigger"), MustBeAssigned]
-        private Boom boomTrigger;
+        [SerializeField, Tooltip("The explosion radius"), PositiveValueOnly]
+        private float boomRadius;
 
         [SerializeField, Tooltip("Particle prefab to create when explode"), MustBeAssigned]
         private GameObject explosionEffect;
@@ -19,34 +19,22 @@ namespace Entities {
         [SerializeField, AutoProperty]
         private Rigidbody2D rb;
 
-        private float distanceTravelled;
-
-        private Vector3 lastPosition;
+        private float boomCountdown;
 
         private void Awake() {
             if (rb == null) {
                 rb = GetComponent<Rigidbody2D>();
             }
 
-            lastPosition = transform.position;
-            distanceTravelled = 0f;
+            boomCountdown = boomTimer;
         }
 
         private void Update() {
-            UpdateDistance();
+            boomCountdown -= Time.deltaTime;
 
-            if (distanceTravelled >= boomDistance) {
+            if (boomCountdown <= 0) {
                 Explode();
             }
-
-            #region Local_Function
-
-            void UpdateDistance(){
-                distanceTravelled += Mathf.Abs((transform.position - lastPosition).magnitude);
-
-                lastPosition = transform.position;
-            }
-            #endregion
         }
 
         internal void Throw(Vector2 throwDirection) {
@@ -65,9 +53,24 @@ namespace Entities {
             GameObject effect = Instantiate(explosionEffect);
             effect.transform.position = transform.position;
 
-            boomTrigger.TriggerExplosion();
+            KillEnemyInRadius();
 
             Destroy(gameObject);
+
+            #region Local_Function
+
+            void KillEnemyInRadius() {
+                Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, boomRadius);
+
+                foreach (var collider in hitColliders) {
+
+                    if (collider.gameObject.CompareTag("Enemy")) {
+                        collider.gameObject.GetComponent<Enemy>().Kill();
+                    }
+                }
+            }
+
+            #endregion
         }
     }
 }

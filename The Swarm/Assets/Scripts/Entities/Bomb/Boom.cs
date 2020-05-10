@@ -23,6 +23,10 @@ namespace Entities {
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D other) {
+            Debug.Log("ENTER");
+        }
+
         private void OnCollisionExit2D(Collision2D other) {
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
 

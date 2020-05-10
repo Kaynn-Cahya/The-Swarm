@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using MyBox;
 
-public class SceneManager : MonoSingleton<SceneManager> {
-	protected override void OnAwake() {
-	}
+namespace Managers {
+	public class SceneManager : MonoSingleton<SceneManager> {
+		protected override void OnAwake() {
+		}
 
-	public void SwitchScene(string sceneName) {
-		UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+		public void SwitchScene(string sceneName) {
+			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+		}
 	}
 }
