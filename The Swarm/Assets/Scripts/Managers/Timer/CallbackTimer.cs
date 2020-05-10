@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Managers.Timers {
     internal class CallbackTimer {
@@ -9,16 +7,33 @@ namespace Managers.Timers {
 
         internal float Current { get; private set; }
 
+        internal bool Activated { get; private set; }
+
         private List<Action> callbacks;
 
-        internal CallbackTimer(float duration, float current, List<Action> callbacks) {
+        internal CallbackTimer(float duration, List<Action> callbacks) {
             Duration = duration;
-            Current = current;
             this.callbacks = callbacks;
+
+            Current = 0;
+            Activated = false;
         }
 
         internal void Update(float deltaTime) {
+            if (Activated) { return; }
+
             Current += Duration;
+
+            if (Current >= Duration) {
+                Activated = true;
+                InvokeCallbacks();
+            }
+        }
+
+        private void InvokeCallbacks() {
+            foreach (var callback in callbacks) {
+                callback?.Invoke();
+            }
         }
     }
 }
