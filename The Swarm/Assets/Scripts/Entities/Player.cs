@@ -38,21 +38,21 @@ namespace Entities {
         [System.Serializable]
         private struct PlayerAnimation {
             [SerializeField, MustBeAssigned]
-            private Animation idleFront;
+            private AnimationClip idleFront;
 
             [SerializeField, MustBeAssigned]
-            private Animation idleBack;
+            private AnimationClip idleBack;
 
             [SerializeField, MustBeAssigned]
-            private Animation moveFront;
+            private AnimationClip moveFront;
 
             [SerializeField, MustBeAssigned]
-            private Animation moveBack;
+            private AnimationClip moveBack;
 
-            public Animation IdleFront { get => idleFront; }
-            public Animation IdleBack { get => idleBack; }
-            public Animation MoveFront { get => moveFront; }
-            public Animation MoveBack { get => moveBack; }
+            public AnimationClip IdleFront { get => idleFront; }
+            public AnimationClip IdleBack { get => idleBack; }
+            public AnimationClip MoveFront { get => moveFront; }
+            public AnimationClip MoveBack { get => moveBack; }
         }
         #endregion
 
@@ -96,7 +96,7 @@ namespace Entities {
             }
 
             bombAvailable = true;
-            currentDirection = Vector2.zero;
+            currentDirection = Vector2.right;
             lives = 3;
         }
 
@@ -130,7 +130,8 @@ namespace Entities {
                 }
 
                 rb.velocity = moveSpeed * inputDirection;
-                currentDirection = inputDirection;
+
+                currentDirection = inputDirection == Vector2.zero ? currentDirection : inputDirection;
             }
 
             #endregion
@@ -153,6 +154,7 @@ namespace Entities {
             bombAvailable = false;
 
             Bomb newBomb = Instantiate(bombPrefab);
+            newBomb.transform.position = transform.position;
             newBomb.Throw(currentDirection);
 
             CallbackTimerManager.Instance.AddTimer(bombCooldown, RefreshBomb);

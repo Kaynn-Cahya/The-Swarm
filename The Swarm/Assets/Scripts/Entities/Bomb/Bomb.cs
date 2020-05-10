@@ -13,6 +13,9 @@ namespace Entities {
         [SerializeField, Tooltip("The explosion to trigger"), MustBeAssigned]
         private Boom boomTrigger;
 
+        [SerializeField, Tooltip("Particle prefab to create when explode"), MustBeAssigned]
+        private GameObject explosionEffect;
+
         [SerializeField, AutoProperty]
         private Rigidbody2D rb;
 
@@ -59,6 +62,9 @@ namespace Entities {
         }
 
         private void Explode() {
+            GameObject effect = Instantiate(explosionEffect);
+            effect.transform.position = transform.position;
+
             boomTrigger.TriggerExplosion();
 
             Destroy(gameObject);

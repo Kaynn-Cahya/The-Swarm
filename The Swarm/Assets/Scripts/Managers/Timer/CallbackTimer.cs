@@ -22,7 +22,7 @@ namespace Managers.Timers {
         internal void Update(float deltaTime) {
             if (Activated) { return; }
 
-            Current += Duration;
+            Current += deltaTime;
 
             if (Current >= Duration) {
                 Activated = true;
