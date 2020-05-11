@@ -162,6 +162,7 @@ namespace Entities {
 				float yInput = Input.GetAxis("Horizontal");
 
 				Vector2 inputDirection = new Vector2(xInput, yInput);
+				Debug.Log(inputDirection);
 
 				if (inputDirection == Vector2.zero) {
 					if (Input.GetKey(controls.Up)) {
@@ -209,7 +210,22 @@ namespace Entities {
 
 			void SetFacingDirection(Vector2 direction) {
 				Vector2 facing = transform.localScale;
-				facing.x = direction.x == 0 ? facing.x : direction.x;
+
+				float directionX = 0;
+
+				if (direction.x == 0) {
+					directionX = facing.x;
+				} else {
+					directionX = direction.x;
+				}
+
+				if (directionX >= 0) {
+					directionX = 1;
+				} else {
+					directionX = -1;
+				}
+
+				facing.x = directionX;
 
 				transform.localScale = facing;
 			}
