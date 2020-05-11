@@ -184,6 +184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 570261730}
+  deathParticle: {fileID: 2626611519679998716, guid: e3470cbbacd64584cb7f64d08cb7c0e1,
+    type: 3}
 --- !u!114 &5808638166550676634
 MonoBehaviour:
   m_ObjectHideFlags: 0

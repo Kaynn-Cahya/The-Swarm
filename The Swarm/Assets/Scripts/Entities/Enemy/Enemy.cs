@@ -5,38 +5,43 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Entities {
-    public class Enemy : MonoBehaviour {
+	public class Enemy : MonoBehaviour {
 
-        [SerializeField, MustBeAssigned]
-        private EnemyBody body;
+		[SerializeField, MustBeAssigned]
+		private EnemyBody body;
 
-        private void Awake() {
-            transform.DetachChildren();
-        }
+		[SerializeField]
+		private GameObject deathParticle;
 
-        public void Initalize(EnemyProperties enemyProperties, Vector2 position) {
-            body.Enable(true);
+		private void Awake() {
+			transform.DetachChildren();
+		}
 
-            transform.position = position;
-            body.transform.position = position;
+		public void Initalize(EnemyProperties enemyProperties, Vector2 position) {
+			body.Enable(true);
 
-            body.SetProperties(enemyProperties);
-        }
+			transform.position = position;
+			body.transform.position = position;
 
-        private void Update() {
-            if (GameManager.Instance.GameOver) { return; }
+			body.SetProperties(enemyProperties);
+		}
 
-            transform.position = body.transform.position;
-        }
+		private void Update() {
+			if(GameManager.Instance.GameOver) { return; }
 
-        /// <summary>
-        /// Kill this enemy.
-        /// </summary>
-        internal void Kill() {
-            GameManager.Instance.IncreaseScore();
+			transform.position = body.transform.position;
+		}
 
-            gameObject.SetActive(false);
-            body.Enable(false);
-        }
-    }
+		/// <summary>
+		/// Kill this enemy.
+		/// </summary>
+		internal void Kill() {
+			GameManager.Instance.IncreaseScore();
+			GameObject clone = Instantiate(deathParticle);
+			clone.transform.position = transform.position;
+
+			gameObject.SetActive(false);
+			body.Enable(false);
+		}
+	}
 }
