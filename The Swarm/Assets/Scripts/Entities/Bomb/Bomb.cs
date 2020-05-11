@@ -1,4 +1,5 @@
-﻿using MyBox;
+﻿using Managers;
+using MyBox;
 using UnityEngine;
 
 namespace Entities {
@@ -54,8 +55,7 @@ namespace Entities {
         }
 
         private void Explode() {
-            GameObject effect = Instantiate(explosionEffect);
-            effect.transform.position = transform.position;
+            EffectManager.Instance.CreateBombExplosion(transform.position);
 
             KillEnemyInRadius();
 

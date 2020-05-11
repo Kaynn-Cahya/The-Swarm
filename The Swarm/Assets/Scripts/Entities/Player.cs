@@ -233,7 +233,7 @@ namespace Entities {
 		}
 
 		private void TriggerHit() {
-			// TODO: Animation
+			EffectManager.Instance.CreateStarRing(transform.position);
 
 			EnemyManager.Instance.KillAllEnemies();
 			GameManager.Instance.DecreaseHealth();
