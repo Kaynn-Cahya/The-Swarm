@@ -158,23 +158,23 @@ namespace Entities {
 			}
 
 			Vector2 UpdateMoveDirection() {
-				float xInput = Input.GetAxis("Vertical");
-				float yInput = Input.GetAxis("Horizontal");
+				float xInput = Input.GetAxis("Horizontal");
+				float yInput = Input.GetAxis("Vertical");
 
 				Vector2 inputDirection = new Vector2(xInput, yInput);
 				Debug.Log(inputDirection);
 
-				if (inputDirection == Vector2.zero) {
-					if (Input.GetKey(controls.Up)) {
+				if(inputDirection == Vector2.zero) {
+					if(Input.GetKey(controls.Up)) {
 						inputDirection += Vector2.up;
 					}
-					if (Input.GetKey(controls.Down)) {
+					if(Input.GetKey(controls.Down)) {
 						inputDirection += Vector2.down;
 					}
-					if (Input.GetKey(controls.Left)) {
+					if(Input.GetKey(controls.Left)) {
 						inputDirection += Vector2.left;
 					}
-					if (Input.GetKey(controls.Right)) {
+					if(Input.GetKey(controls.Right)) {
 						inputDirection += Vector2.right;
 					}
 				}
@@ -188,7 +188,7 @@ namespace Entities {
 
 				if(direction == Vector2.zero) {
 					// Not moving; Check idle direction.
-					if (currentDirection.y < -0.1f && currentDirection.x == 0) {
+					if(currentDirection.y < -0.1f && currentDirection.x == 0) {
 						animator.Play(animations.IdleFront.name);
 					} else if(currentDirection.y >= 0.1f) {
 						animator.Play(animations.IdleBack.name);
@@ -213,13 +213,13 @@ namespace Entities {
 
 				float directionX = 0;
 
-				if (direction.x == 0) {
+				if(direction.x == 0) {
 					directionX = facing.x;
 				} else {
 					directionX = direction.x;
 				}
 
-				if (directionX >= 0) {
+				if(directionX >= 0) {
 					directionX = 1;
 				} else {
 					directionX = -1;
