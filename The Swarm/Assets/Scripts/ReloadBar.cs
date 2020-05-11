@@ -6,77 +6,83 @@ using UnityEngine;
 
 public class ReloadBar : MonoBehaviour {
 
-    [SerializeField, Tooltip("Offset to the player's position")]
-    private Vector2 offset;
+	[SerializeField, Tooltip("Offset to the player's position")]
+	private Vector2 offset;
 
-    private float speed;
-    private float cooldown;
+	[SerializeField, Tooltip("Bar to show reloading")]
+	private GameObject bar;
 
-    private float timer;
+	private float speed;
+	private float cooldown;
 
-    private Transform playerTransform;
+	private float timer;
 
-    /// <summary>
-    /// Max position it can be at on the y-axis
-    /// </summary>
-    private float yCeil;
+	private Transform playerTransform;
 
-    private void Start() {
-        timer = 100f;
-        playerTransform = Player.Instance.transform;
+	/// <summary>
+	/// Max position it can be at on the y-axis
+	/// </summary>
+	private float yCeil;
 
-        yCeil = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 1)).y;
-    }
+	private void Start() {
+		timer = 100f;
+		playerTransform = Player.Instance.transform;
 
-    private void Update() {
-        UpdateBar();
-        MoveBar();
-    }
+		yCeil = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 1)).y;
+		bar.SetActive(false);
+	}
 
-    private void UpdateBar() {
-        if (timer >= cooldown) { return; }
+	private void Update() {
+		UpdateBar();
+		MoveBar();
+	}
 
-        timer += Time.deltaTime;
+	private void UpdateBar() {
+		if(timer >= cooldown) { return; }
 
-        if (timer >= cooldown) {
-            timer = cooldown;
-            transform.localScale = Vector3.one;
-        } else {
-            float t = (timer / cooldown);
-            transform.localScale = new Vector3(Mathf.Lerp(0, 1, t), 1, 1);
-        }
-    }
+		timer += Time.deltaTime;
 
-    private void MoveBar() {
+		if(timer >= cooldown) {
+			timer = cooldown;
+			transform.localScale = Vector3.one;
+			bar.SetActive(false);
+		} else {
+			float t = (timer / cooldown);
+			transform.localScale = new Vector3(Mathf.Lerp(0, 1, t), 1, 1);
+			bar.SetActive(true);
+		}
+	}
 
-        Vector2 targetPosition = GetTargetPosition();
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+	private void MoveBar() {
 
-        #region Local_Function
+		Vector2 targetPosition = GetTargetPosition();
+		transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        Vector2 GetTargetPosition() {
-            Vector2 pos = offset + (Vector2) playerTransform.position;
+		#region Local_Function
 
-            if (pos.y >= yCeil) {
-                pos.y -= (offset.y * 2);
-            }
+		Vector2 GetTargetPosition() {
+			Vector2 pos = offset + (Vector2)playerTransform.position;
 
-            return pos;
-        }
+			if(pos.y >= yCeil) {
+				pos.y -= (offset.y * 2);
+			}
 
-        #endregion
-    }
+			return pos;
+		}
 
-    #region Utils
+		#endregion
+	}
 
-    internal void SetProperties(float moveSpeed, float cooldownDuration) {
-        speed = moveSpeed;
-        cooldown = cooldownDuration;
-    }
+	#region Utils
 
-    internal void TriggerReload() {
-        timer = 0f;
-    }
+	internal void SetProperties(float moveSpeed, float cooldownDuration) {
+		speed = moveSpeed;
+		cooldown = cooldownDuration;
+	}
 
-    #endregion
+	internal void TriggerReload() {
+		timer = 0f;
+	}
+
+	#endregion
 }

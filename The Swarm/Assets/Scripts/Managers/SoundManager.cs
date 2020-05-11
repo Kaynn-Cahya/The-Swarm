@@ -6,74 +6,75 @@ using MyBox;
 namespace Managers {
 	public class SoundManager : MonoSingleton<SoundManager> {
 
-		#region AudioFile
+		#region Local_Classes
+
 		[System.Serializable]
-		private struct AudioFile {
-			[SerializeField, Tooltip("The audio clip matching the audio type"), MustBeAssigned]
-			private AudioClip audioClip;
+		private class AudioFile {
+			public AudioType AudioType;
+			public AudioClip Clip;
 
-			[SerializeField, Tooltip("The audio type matching the audio clip"), SearchableEnum]
-			private AudioType audioType;
+			public bool PlayOnAwake;
+			public bool IsLooping;
 
-			public AudioClip AudioClip { get => audioClip; }
-			public AudioType AudioType { get => audioType; }
 
-			public bool playOnAwake;
-			[ConditionalField(nameof(playOnAwake))]
-			public bool isLooping;
+			[Range(0f, 1f)] public float AudioVolume = 1f;
+			[HideInInspector] public AudioSource Source;
 		}
+
 		#endregion
 
-		[SerializeField, Tooltip("The audio output to use."), MustBeAssigned]
-		private AudioSource source;
+		[SerializeField, Tooltip("Contains all the audios in the game.")] private List<AudioFile> audioFiles = default;
 
-		[SerializeField, Tooltip("The list of playable audio files."), MustBeAssigned]
-		private List<AudioFile> audioFiles;
+		private static Dictionary<AudioType, AudioFile> audioDict = new Dictionary<AudioType, AudioFile>();
+
 
 		protected override void OnAwake() {
 			if(audioFiles.IsNullOrEmpty()) {
 				Debug.LogWarning("No audio files is loaded into sound manager!");
 				return;
 			}
+			InitializeAudioDict();
+			InitializeAudioFiles();
+		}
 
-			foreach(var audioFile in audioFiles) {
-				if(audioFile.playOnAwake) {
-					AudioSource BGMAudio = gameObject.AddComponent<AudioSource>();
-					BGMAudio.clip = audioFile.AudioClip;
+		/// <summary>
+		/// Add all the type of audios into the dictionary.
+		/// </summary>
+		private void InitializeAudioDict() {
+			foreach(AudioFile audioFile in audioFiles) {
+				audioDict.Add(audioFile.AudioType, audioFile);
+			}
+		}
 
-					if(audioFile.isLooping) {
-						BGMAudio.loop = true;
-					}
+		/// <summary>
+		/// Create an audio source component for each audio clip and initialize with the audio file properties.
+		/// </summary>
+		private void InitializeAudioFiles() {
+			foreach(var a in audioFiles) {
+				a.Source = gameObject.AddComponent<AudioSource>();
 
-					BGMAudio.Play();
+				// Assign audio properties to the newly created audio source.
+				a.Source.clip = a.Clip;
+				a.Source.volume = a.AudioVolume;
+				a.Source.loop = a.IsLooping;
+
+				// Start playing the audio if needed.
+				if(a.PlayOnAwake) {
+					a.Source.Play();
 				}
 			}
 		}
 
 		internal void PlayAudioByType(AudioType audioType) {
+			// Get audio file from dictionary.
+			audioDict.TryGetValue(audioType, out AudioFile audioFile);
 
-			if(TryGetAudioClipToPlay(out AudioClip clipToPlay)) {
-				source.PlayOneShot(clipToPlay);
+			// Play audio if there is such audio file of the given type.
+			if(audioFile != null) {
+				audioFile.Source.PlayOneShot(audioFile.Clip);
 			} else {
-				Debug.LogWarning("No Audio File found for " + audioType.ToString());
+				Debug.LogError("Audio clip for " + audioType + " has not been assigned.");
 			}
-
-			#region Local_Function
-
-			bool TryGetAudioClipToPlay(out AudioClip audioClip) {
-				audioClip = null;
-
-				foreach(var audioFile in audioFiles) {
-					if(audioFile.AudioType == audioType) {
-						audioClip = audioFile.AudioClip;
-						break;
-					}
-				}
-
-				return audioClip != null;
-			}
-
-			#endregion
 		}
 	}
 }

@@ -2336,36 +2336,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfd0631166de5c478bcacfdb9908516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 1612209612}
   audioFiles:
-  - audioClip: {fileID: 8300000, guid: 1481199854c30e54da7339e638901fb4, type: 3}
-    audioType: 0
-    playOnAwake: 0
-    isLooping: 0
-  - audioClip: {fileID: 8300000, guid: 8d67910b3242c684eb5ab3d63f27a3b1, type: 3}
-    audioType: 1
-    playOnAwake: 0
-    isLooping: 0
-  - audioClip: {fileID: 8300000, guid: b6cd063b98579bd4c8d31c6e2fdc0bbf, type: 3}
-    audioType: 2
-    playOnAwake: 0
-    isLooping: 0
-  - audioClip: {fileID: 8300000, guid: 5a72e4994cc6c144ca292ffafe9ecca6, type: 3}
-    audioType: 3
-    playOnAwake: 0
-    isLooping: 0
-  - audioClip: {fileID: 8300000, guid: c7d89cdfb22246749b391584318c7e9d, type: 3}
-    audioType: 4
-    playOnAwake: 0
-    isLooping: 0
-  - audioClip: {fileID: 8300000, guid: 108bafbb8279a754a8b18724ddeb28a0, type: 3}
-    audioType: 5
-    playOnAwake: 0
-    isLooping: 0
-  - audioClip: {fileID: 8300000, guid: f868fa61609e9e4438475b5aa1542833, type: 3}
-    audioType: 6
-    playOnAwake: 0
-    isLooping: 0
+  - AudioType: 0
+    Clip: {fileID: 8300000, guid: 1481199854c30e54da7339e638901fb4, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 1
+    Clip: {fileID: 8300000, guid: 8d67910b3242c684eb5ab3d63f27a3b1, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 2
+    Clip: {fileID: 8300000, guid: b6cd063b98579bd4c8d31c6e2fdc0bbf, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 3
+    Clip: {fileID: 8300000, guid: 5a72e4994cc6c144ca292ffafe9ecca6, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 4
+    Clip: {fileID: 8300000, guid: c7d89cdfb22246749b391584318c7e9d, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 5
+    Clip: {fileID: 8300000, guid: 108bafbb8279a754a8b18724ddeb28a0, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 6
+    Clip: {fileID: 8300000, guid: f868fa61609e9e4438475b5aa1542833, type: 3}
+    PlayOnAwake: 0
+    IsLooping: 0
+    AudioVolume: 1
+    Source: {fileID: 0}
+  - AudioType: 7
+    Clip: {fileID: 8300000, guid: 82b252db260975d47913b1b0db1e0d82, type: 3}
+    PlayOnAwake: 1
+    IsLooping: 1
+    AudioVolume: 1
+    Source: {fileID: 0}
 --- !u!82 &1612209612
 AudioSource:
   m_ObjectHideFlags: 0

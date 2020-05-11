@@ -4,24 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managers {
-    public class EffectManager : MonoSingleton<EffectManager> {
-        [SerializeField, Tooltip("Effect for bomb explosion"), MustBeAssigned]
-        private GameObject bombExplosionEffect;
+	public class EffectManager : MonoSingleton<EffectManager> {
+		[SerializeField, Tooltip("Effect for bomb explosion"), MustBeAssigned]
+		private GameObject bombExplosionEffect;
 
-        [SerializeField, Tooltip("Effect for clearing the entire map"), MustBeAssigned]
-        private GameObject starRingEffect;
+		[SerializeField, Tooltip("Effect for clearing the entire map"), MustBeAssigned]
+		private GameObject starRingEffect;
 
-        protected override void OnAwake() {
-        }
+		[SerializeField, Tooltip("Effect for shaking the screen.")]
+		private CameraShake cameraShake;
 
-        internal void CreateBombExplosion(Vector2 position) {
-            GameObject effect = Instantiate(bombExplosionEffect);
-            effect.transform.position = position;
-        }
+		protected override void OnAwake() {
+		}
 
-        internal void CreateStarRing(Vector2 position) {
-            GameObject effect = Instantiate(starRingEffect);
-            effect.transform.position = position;
-        }
-    }
+		internal void CreateBombExplosion(Vector2 position) {
+			GameObject effect = Instantiate(bombExplosionEffect);
+			effect.transform.position = position;
+		}
+
+		internal void CreateStarRing(Vector2 position) {
+			GameObject effect = Instantiate(starRingEffect);
+			effect.transform.position = position;
+		}
+
+		internal void CreateScreenShake() {
+			cameraShake.TriggerShake();
+		}
+	}
 }

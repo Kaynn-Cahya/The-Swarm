@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88739767}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.6, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1409003882}
@@ -165,7 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdef7b1c2219d6b49aa62a9375c0aab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: -0.5, y: 0.6}
+  offset: {x: -0.25, y: 0.6}
+  bar: {fileID: 1409003881}
 --- !u!1 &115929736
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,8 +216,9 @@ MonoBehaviour:
     spawnCount: 5
     spawnTimeGap: 0.15
   upgradeSpawnCountValue: 0.25
-  enemyPrefab: {fileID: 5808638166550676638, guid: ac5b81eb284268a4db761ff63277f89e,
-    type: 3}
+  enemyPrefabs:
+  - {fileID: 5808638166550676638, guid: ac5b81eb284268a4db761ff63277f89e, type: 3}
+  - {fileID: 5808638166550676638, guid: a4f0c5a9bc80472408abb71bc75f092a, type: 3}
   enemyProperties:
     enemyMoveSpeed: 2.8
     enemyRotateSpeed: 365
@@ -502,8 +504,8 @@ Canvas:
   m_GameObject: {fileID: 291008734}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -685,6 +687,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -817,6 +820,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e9aa0c101c54cd4f9244644663a0501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 0.2
+  shakeStregth: 1.5
+  volume: {fileID: 1875563046}
+  chromaticIntensity: 0.3
+  chromaticDuration: 0.5
 --- !u!1 &558348837
 GameObject:
   m_ObjectHideFlags: 0
@@ -6663,8 +6683,8 @@ Canvas:
   m_GameObject: {fileID: 1366251937}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -6721,8 +6741,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1409003881}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.501, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.17, z: 1}
   m_Children: []
   m_Father: {fileID: 88739768}
   m_RootOrder: 0
@@ -7996,6 +8016,7 @@ MonoBehaviour:
     type: 3}
   starRingEffect: {fileID: 1519292214453660867, guid: 1e2fa0e6682943f4d8c0d10131b4b1a6,
     type: 3}
+  cameraShake: {fileID: 519420033}
 --- !u!1 &2000197218
 GameObject:
   m_ObjectHideFlags: 0

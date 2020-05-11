@@ -184,9 +184,9 @@ namespace Entities {
 						animator.Play(animations.IdleFront.name);
 					}
 				} else {
-					if (direction.y == -1 && direction.x == 0) {
+					if(direction.y == -1 && direction.x == 0) {
 						animator.Play(animations.FrontMove.name);
-					} else if (direction.y >= 1) {
+					} else if(direction.y >= 1) {
 						animator.Play(animations.MoveBack.name);
 					} else {
 						animator.Play(animations.DefaultMove.name);
@@ -232,6 +232,7 @@ namespace Entities {
 
 		private void TriggerHit() {
 			EffectManager.Instance.CreateStarRing(transform.position);
+			EffectManager.Instance.CreateScreenShake();
 
 			EnemyManager.Instance.KillAllEnemies();
 			GameManager.Instance.DecreaseHealth();

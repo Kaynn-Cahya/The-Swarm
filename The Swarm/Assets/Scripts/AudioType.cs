@@ -6,5 +6,6 @@ internal enum AudioType {
 	Difficulty_Increase,
 	Powerup_Collect,
 	UI_Select,
-	Game_Start
+	Game_Start,
+	BGM
 }
