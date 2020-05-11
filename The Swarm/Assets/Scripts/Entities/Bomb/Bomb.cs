@@ -42,11 +42,15 @@ namespace Entities {
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-
-            if (enemy != null) {
+            if (HitEnemyOrBorder()) {
                 Explode();
             }
+
+            #region Local_Function
+            bool HitEnemyOrBorder() {
+                return other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Border");
+            }
+            #endregion
         }
 
         private void Explode() {

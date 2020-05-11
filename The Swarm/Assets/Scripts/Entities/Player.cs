@@ -101,7 +101,9 @@ namespace Entities {
         }
 
         private void Update() {
-            UpdateMoveDirection();
+            Vector2 input =UpdateMoveDirection();
+
+            UpdateAnimationByInputDirection(input);
 
             UpdateBombTrigger();
 
@@ -113,7 +115,7 @@ namespace Entities {
                 }
             }
 
-            void UpdateMoveDirection() {
+            Vector2 UpdateMoveDirection() {
                 Vector2 inputDirection = Vector2.zero;
 
                 if (Input.GetKey(controls.Up)) {
@@ -132,6 +134,27 @@ namespace Entities {
                 rb.velocity = moveSpeed * inputDirection;
 
                 currentDirection = inputDirection == Vector2.zero ? currentDirection : inputDirection;
+
+                return inputDirection;
+            }
+
+            void UpdateAnimationByInputDirection(Vector2 direction) {
+
+                if (direction == Vector2.zero) {
+                    // Not moving; Check idle direction.
+                    if (currentDirection.y >= 1) {
+                        animator.Play(animations.IdleBack.name);
+                    } else {
+                        animator.Play(animations.IdleFront.name);
+                    }
+                } else {
+                    if (direction.y >= 1) {
+                        animator.Play(animations.MoveBack.name);
+                    } else {
+                        animator.Play(animations.MoveFront.name);
+                    }
+                }
+
             }
 
             #endregion
