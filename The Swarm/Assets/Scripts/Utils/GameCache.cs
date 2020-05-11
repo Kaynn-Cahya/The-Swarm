@@ -46,4 +46,10 @@ internal class GameCache<T> where T : MonoBehaviour {
 
         return outItem != null;
     }
+
+    internal void Foreach(Action<T> action) {
+        foreach (var item in cache) {
+            action(item);
+        }
+    }
 }
