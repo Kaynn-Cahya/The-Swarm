@@ -57,12 +57,31 @@ namespace Entities {
         }
         #endregion
 
+        #region Direction_Indicator
+
+        [System.Serializable]
+        private struct DirectionIndicator {
+            [SerializeField, MustBeAssigned]
+            private GameObject indicator;
+
+            [SerializeField]
+            private Vector2 direction;
+
+            public Vector2 Direction { get => direction; }
+            public GameObject Indicator { get => indicator; }
+        }
+
+        #endregion
+
         [SerializeField, AutoProperty]
         private Rigidbody2D rb;
 
         [Separator("Controls")]
         [SerializeField, Tooltip("Controls for the player"), MustBeAssigned]
         private PlayerControl controls;
+
+        [SerializeField, Tooltip("Direction indicators for the player")]
+        private List<DirectionIndicator> directionIndicators;
 
         [Separator("Speed")]
         [SerializeField, Tooltip("Move speed of the player"), PositiveValueOnly]
@@ -99,6 +118,7 @@ namespace Entities {
             }
 
             bombAvailable = true;
+
             currentDirection = Vector2.right;
         }
 
@@ -107,6 +127,8 @@ namespace Entities {
             
             Vector2 input =UpdateMoveDirection();
 
+            SetDirectionIndicators(input);
+            currentDirection = input == Vector2.zero ? currentDirection : input;
             UpdateAnimationByInputDirection(input);
 
             UpdateBombTrigger();
@@ -136,8 +158,6 @@ namespace Entities {
                 }
 
                 rb.velocity = moveSpeed * inputDirection.normalized;
-
-                currentDirection = inputDirection == Vector2.zero ? currentDirection : inputDirection;
 
                 return inputDirection;
             }
@@ -170,6 +190,24 @@ namespace Entities {
             }
 
             #endregion
+        }
+
+        private void SetDirectionIndicators(Vector2 direction) {
+            if (direction == Vector2.zero) { return; }
+
+            direction.x = Mathf.Abs(direction.x);
+            var temp = currentDirection;
+            temp.x = Mathf.Abs(temp.x);
+
+            if (temp == direction) { return; }
+
+            foreach (var indicator in directionIndicators) {
+                if (indicator.Direction == temp) {
+                    indicator.Indicator.SetActive(false);
+                } else if (indicator.Direction == direction) {
+                    indicator.Indicator.SetActive(true);
+                }
+            }
         }
 
         private void ThrowBomb() {
