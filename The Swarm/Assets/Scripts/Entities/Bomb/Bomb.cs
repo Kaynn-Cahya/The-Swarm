@@ -59,6 +59,8 @@ namespace Entities {
 
             KillEnemyInRadius();
 
+            SoundManager.Instance.PlayAudioByType(AudioType.Bomb_Explode);
+
             Destroy(gameObject);
 
             #region Local_Function

@@ -88,6 +88,8 @@ namespace Managers {
                 upgradeIntervals += Mathf.CeilToInt(upgradeIntervals * 0.001f);
 
                 upgradeCounter = 0;
+
+                SoundManager.Instance.PlayAudioByType(AudioType.Difficulty_Increase);
             }
         }
     }

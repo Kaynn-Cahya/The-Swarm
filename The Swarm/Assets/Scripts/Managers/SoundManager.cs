@@ -24,7 +24,7 @@ namespace Managers {
         private AudioSource source;
 
         [SerializeField, Tooltip("The list of playable audio files."), MustBeAssigned]
-        private HashSet<AudioFile> audioFiles;
+        private List<AudioFile> audioFiles;
 
         protected override void OnAwake() {
             if (audioFiles.IsNullOrEmpty()) {

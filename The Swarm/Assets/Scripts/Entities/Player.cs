@@ -217,6 +217,7 @@ namespace Entities {
 			newBomb.transform.position = transform.position;
 			newBomb.Throw(currentDirection);
 
+			SoundManager.Instance.PlayAudioByType(AudioType.Bomb_Throw);
 			CallbackTimerManager.Instance.AddTimer(bombCooldown, RefreshBomb);
 		}
 
@@ -237,6 +238,8 @@ namespace Entities {
 
 			EnemyManager.Instance.KillAllEnemies();
 			GameManager.Instance.DecreaseHealth();
+
+			SoundManager.Instance.PlayAudioByType(AudioType.Player_Hit);
 		}
 
 		internal void Upgrade() {

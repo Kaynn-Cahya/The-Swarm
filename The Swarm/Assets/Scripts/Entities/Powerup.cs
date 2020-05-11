@@ -9,6 +9,8 @@ namespace Entities {
             if (other.gameObject.CompareTag("Player")) {
                 EffectManager.Instance.CreateStarRing(transform.position);
 
+                SoundManager.Instance.PlayAudioByType(AudioType.Powerup_Collect);
+
                 EnemyManager.Instance.KillAllEnemies();
                 Destroy(gameObject);
             }
