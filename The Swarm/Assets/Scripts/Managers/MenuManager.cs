@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using MyBox;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Managers {
@@ -10,7 +12,14 @@ namespace Managers {
 
 		[SerializeField, Tooltip("Animator of start txt.")] private Animator startTxtAnimator;
 
+		[SerializeField, Tooltip("High score text"), MustBeAssigned]
+		private TextMeshProUGUI highScoreText;
+
 		private bool isTransitioning;
+
+		private void Start() {
+			highScoreText.text = GlobalValues.HighScore.ToString();
+		}
 
 		void Update() {
 			if (Input.anyKeyDown && !isTransitioning) {

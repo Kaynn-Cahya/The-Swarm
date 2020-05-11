@@ -19,10 +19,6 @@ namespace Managers {
 			[SerializeField, MustBeAssigned]
 			private TextMeshProUGUI scoreText;
 
-			[SerializeField, MustBeAssigned]
-			private GameObject gameOverCanvas;
-
-
 			public int TotalHealthCount { get => healthCounts.Count; }
 
 			public void DecreaseHealth() {
@@ -39,18 +35,43 @@ namespace Managers {
 			public void SetScore(int score) {
 				scoreText.text = score.ToString();
 			}
+		}
+		#endregion
+
+		#region GameOverInterface
+
+		[System.Serializable]
+		private struct GameOverInterface {
+			[SerializeField, MustBeAssigned]
+			private GameObject gameOverCanvas;
+
+			[SerializeField, MustBeAssigned]
+			private TextMeshProUGUI scoreText;
+
+			[SerializeField, MustBeAssigned]
+			private TextMeshProUGUI highScoreText;
 
 			public void ToggleGameOverCanvas(bool state) {
 				gameOverCanvas.SetActive(state);
 			}
-		}
-		#endregion
 
-		[SerializeField]
+			public void SetScores(int score, int highScore) {
+				scoreText.text = "score: " + score.ToString();
+				highScoreText.text = "hi-score: " + highScore.ToString();
+			}
+		}
+
+        #endregion
+
+        [SerializeField]
 		private GameInterface gameInterface;
 
 		[SerializeField, Tooltip("How many enemies to kill before upgrade"), PositiveValueOnly]
 		private int upgradeIntervals;
+
+		[Separator("Game over")]
+		[SerializeField]
+		private GameOverInterface gameOverInterface;
 
 		public bool GameOver { get; private set; }
 
@@ -71,8 +92,14 @@ namespace Managers {
 
 		internal void TriggerGameOver() {
 			GameOver = true;
+
+			if (Score >= GlobalValues.HighScore) {
+				GlobalValues.HighScore = Score;
+			}
+
 			AdjustTimeScale(0);
-			gameInterface.ToggleGameOverCanvas(true);
+			gameOverInterface.SetScores(Score, GlobalValues.HighScore);
+			gameOverInterface.ToggleGameOverCanvas(true);
 		}
 
 		internal void DecreaseHealth() {

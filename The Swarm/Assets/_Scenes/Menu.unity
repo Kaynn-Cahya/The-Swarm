@@ -2822,6 +2822,7 @@ MonoBehaviour:
   gameScene: Main
   delay: 1.5
   startTxtAnimator: {fileID: 689585305}
+  highScoreText: {fileID: 954580852}
 --- !u!1 &2101259360
 GameObject:
   m_ObjectHideFlags: 0

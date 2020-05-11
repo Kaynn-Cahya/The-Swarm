@@ -6882,8 +6882,11 @@ MonoBehaviour:
     - {fileID: 1009214410}
     - {fileID: 1486516132}
     scoreText: {fileID: 607542400}
-    gameOverCanvas: {fileID: 2000197218}
   upgradeIntervals: 10
+  gameOverInterface:
+    gameOverCanvas: {fileID: 2000197218}
+    scoreText: {fileID: 2132114745}
+    highScoreText: {fileID: 214833851}
 --- !u!1 &1436292244
 GameObject:
   m_ObjectHideFlags: 0
@@ -7847,6 +7850,7 @@ MonoBehaviour:
   spawnIntervals: 15
   powerupPrefab: {fileID: 5082940806700835220, guid: dcf0bb5de8c7eba49b3e3986781eac7b,
     type: 3}
+  PowerUpActive: 0
 --- !u!1 &1875563045
 GameObject:
   m_ObjectHideFlags: 0
