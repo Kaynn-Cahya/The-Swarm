@@ -45,14 +45,18 @@ namespace Entities {
 			private AnimationClip idleBack;
 
 			[SerializeField, MustBeAssigned]
-			private AnimationClip moveFront;
+			private AnimationClip defaultMove;
+
+			[SerializeField, MustBeAssigned]
+			private AnimationClip frontMove;
 
 			[SerializeField, MustBeAssigned]
 			private AnimationClip moveBack;
 
 			public AnimationClip IdleFront { get => idleFront; }
 			public AnimationClip IdleBack { get => idleBack; }
-			public AnimationClip MoveFront { get => moveFront; }
+			public AnimationClip DefaultMove { get => defaultMove; }
+			public AnimationClip FrontMove { get => frontMove; }
 			public AnimationClip MoveBack { get => moveBack; }
 		}
 		#endregion
@@ -83,8 +87,8 @@ namespace Entities {
 		[SerializeField, Tooltip("Controls for the player"), MustBeAssigned]
 		private PlayerControl controls;
 
-		[SerializeField, Tooltip("Direction indicators for the player")]
-		private List<DirectionIndicator> directionIndicators;
+		[SerializeField, Tooltip("Reload bar for the player"), MustBeAssigned]
+		private ReloadBar reloadBar;
 
 		[Separator("Speed")]
 		[SerializeField, Tooltip("Move speed of the player"), PositiveValueOnly]
@@ -127,6 +131,7 @@ namespace Entities {
 			bombAvailable = true;
 
 			currentDirection = Vector2.right;
+			reloadBar.SetProperties(moveSpeed * 2f, bombCooldown);
 		}
 
 		private void Update() {
@@ -179,10 +184,12 @@ namespace Entities {
 						animator.Play(animations.IdleFront.name);
 					}
 				} else {
-					if(direction.y >= 1) {
+					if (direction.y == -1 && direction.x == 0) {
+						animator.Play(animations.FrontMove.name);
+					} else if (direction.y >= 1) {
 						animator.Play(animations.MoveBack.name);
 					} else {
-						animator.Play(animations.MoveFront.name);
+						animator.Play(animations.DefaultMove.name);
 					}
 				}
 
@@ -199,25 +206,8 @@ namespace Entities {
 			#endregion
 		}
 
-		private void SetDirectionIndicators(Vector2 direction) {
-			if(direction == Vector2.zero) { return; }
-
-			direction.x = Mathf.Abs(direction.x);
-			var temp = currentDirection;
-			temp.x = Mathf.Abs(temp.x);
-
-			if(temp == direction) { return; }
-
-			foreach(var indicator in directionIndicators) {
-				if(indicator.Direction == temp) {
-					indicator.Indicator.SetActive(false);
-				} else if(indicator.Direction == direction) {
-					indicator.Indicator.SetActive(true);
-				}
-			}
-		}
-
 		private void ThrowBomb() {
+			reloadBar.TriggerReload();
 			bombAvailable = false;
 
 			Bomb newBomb = Instantiate(bombPrefab);
@@ -268,6 +258,8 @@ namespace Entities {
 			// Slightly decrease bomb cooldown
 
 			bombCooldown -= (bombCooldown * 0.0025f);
+
+			reloadBar.SetProperties(moveSpeed * 2f, bombCooldown);
 		}
 	}
 }
