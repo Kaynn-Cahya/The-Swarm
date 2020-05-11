@@ -101,7 +101,6 @@ public class GameOverUIHandler : MonoSingleton<GameOverUIHandler> {
 		} while (progress < 1f);
 
 		yield return null;
-		GameManager.Instance.AdjustTimeScale(0f);
 		interactable = true;
 
 		#region Local_Function
