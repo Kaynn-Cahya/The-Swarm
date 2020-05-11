@@ -39,6 +39,9 @@ namespace Entities {
 		[System.Serializable]
 		private struct PlayerAnimation {
 			[SerializeField, MustBeAssigned]
+			private AnimationClip defaultIdle;
+
+			[SerializeField, MustBeAssigned]
 			private AnimationClip idleFront;
 
 			[SerializeField, MustBeAssigned]
@@ -53,6 +56,7 @@ namespace Entities {
 			[SerializeField, MustBeAssigned]
 			private AnimationClip moveBack;
 
+			public AnimationClip DefaultIdle { get => defaultIdle; }
 			public AnimationClip IdleFront { get => idleFront; }
 			public AnimationClip IdleBack { get => idleBack; }
 			public AnimationClip DefaultMove { get => defaultMove; }
@@ -148,25 +152,30 @@ namespace Entities {
 			#region Local_Function
 
 			void UpdateBombTrigger() {
-				if(Input.GetKeyDown(controls.Bomb) && bombAvailable) {
+				if((Input.GetKeyDown(controls.Bomb) || Input.GetKeyDown(KeyCode.Joystick1Button0)) && bombAvailable) {
 					ThrowBomb();
 				}
 			}
 
 			Vector2 UpdateMoveDirection() {
-				Vector2 inputDirection = Vector2.zero;
+				float xInput = Input.GetAxis("Vertical");
+				float yInput = Input.GetAxis("Horizontal");
 
-				if(Input.GetKey(controls.Up)) {
-					inputDirection += Vector2.up;
-				}
-				if(Input.GetKey(controls.Down)) {
-					inputDirection += Vector2.down;
-				}
-				if(Input.GetKey(controls.Left)) {
-					inputDirection += Vector2.left;
-				}
-				if(Input.GetKey(controls.Right)) {
-					inputDirection += Vector2.right;
+				Vector2 inputDirection = new Vector2(xInput, yInput);
+
+				if (inputDirection == Vector2.zero) {
+					if (Input.GetKey(controls.Up)) {
+						inputDirection += Vector2.up;
+					}
+					if (Input.GetKey(controls.Down)) {
+						inputDirection += Vector2.down;
+					}
+					if (Input.GetKey(controls.Left)) {
+						inputDirection += Vector2.left;
+					}
+					if (Input.GetKey(controls.Right)) {
+						inputDirection += Vector2.right;
+					}
 				}
 
 				rb.velocity = moveSpeed * inputDirection.normalized;
@@ -178,15 +187,17 @@ namespace Entities {
 
 				if(direction == Vector2.zero) {
 					// Not moving; Check idle direction.
-					if(currentDirection.y >= 1) {
+					if (currentDirection.y < -0.1f && currentDirection.x == 0) {
+						animator.Play(animations.IdleFront.name);
+					} else if(currentDirection.y >= 0.1f) {
 						animator.Play(animations.IdleBack.name);
 					} else {
-						animator.Play(animations.IdleFront.name);
+						animator.Play(animations.DefaultIdle.name);
 					}
 				} else {
-					if(direction.y == -1 && direction.x == 0) {
+					if(direction.y < -0.1f && direction.x == 0) {
 						animator.Play(animations.FrontMove.name);
-					} else if(direction.y >= 1) {
+					} else if(direction.y >= 0.1f) {
 						animator.Play(animations.MoveBack.name);
 					} else {
 						animator.Play(animations.DefaultMove.name);

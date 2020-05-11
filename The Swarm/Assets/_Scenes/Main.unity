@@ -1373,7 +1373,8 @@ MonoBehaviour:
     type: 3}
   bombCooldown: 2.5
   animations:
-    idleFront: {fileID: 7400000, guid: e6447b0408013a34887aacd1dc2e4f9d, type: 2}
+    defaultIdle: {fileID: 7400000, guid: e6447b0408013a34887aacd1dc2e4f9d, type: 2}
+    idleFront: {fileID: 7400000, guid: 0bc3bb0ce25115e4eb0c6aee0e6a0d79, type: 2}
     idleBack: {fileID: 7400000, guid: 34a700d698e515545aa344beee81923a, type: 2}
     defaultMove: {fileID: 7400000, guid: ecd49afaf1b6af24f8a94a726ba6df69, type: 2}
     frontMove: {fileID: 7400000, guid: 2025a7cd6f7893b47a4d646695678229, type: 2}
