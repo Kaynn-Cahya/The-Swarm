@@ -1289,6 +1289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 735010708}
+  spriteRenderer: {fileID: 735010703}
   controls:
     up: 273
     down: 274

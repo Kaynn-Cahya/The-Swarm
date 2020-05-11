@@ -76,6 +76,9 @@ namespace Entities {
 		[SerializeField, AutoProperty]
 		private Rigidbody2D rb;
 
+		[SerializeField, AutoProperty]
+		private SpriteRenderer spriteRenderer;
+
 		[Separator("Controls")]
 		[SerializeField, Tooltip("Controls for the player"), MustBeAssigned]
 		private PlayerControl controls;
@@ -115,6 +118,10 @@ namespace Entities {
 
 			if(animator == null) {
 				animator = GetComponent<Animator>();
+			}
+
+			if(spriteRenderer == null) {
+				spriteRenderer = GetComponent<SpriteRenderer>();
 			}
 
 			bombAvailable = true;
@@ -240,6 +247,19 @@ namespace Entities {
 			GameManager.Instance.DecreaseHealth();
 
 			SoundManager.Instance.PlayAudioByType(AudioType.Player_Hit);
+
+			StartCoroutine(HitBlink(5, .1f));
+
+			#region Local_Function
+
+			IEnumerator HitBlink(int blinkNum, float blinkInterval) {
+				for(int i = 0; i < blinkNum * 2; i++) {
+					spriteRenderer.enabled = !spriteRenderer.enabled;
+					yield return new WaitForSeconds(blinkInterval);
+				}
+			}
+
+			#endregion
 		}
 
 		internal void Upgrade() {
