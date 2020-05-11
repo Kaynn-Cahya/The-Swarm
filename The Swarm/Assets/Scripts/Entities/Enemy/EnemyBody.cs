@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Managers;
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ public class EnemyBody : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (GameManager.Instance.GameOver) { return; }
+
         MoveTowardsTarget();
     }
 

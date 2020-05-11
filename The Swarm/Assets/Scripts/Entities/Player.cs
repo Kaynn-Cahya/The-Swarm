@@ -1,4 +1,5 @@
-﻿using Managers.Timers;
+﻿using Managers;
+using Managers.Timers;
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
@@ -63,10 +64,14 @@ namespace Entities {
         [SerializeField, Tooltip("Controls for the player"), MustBeAssigned]
         private PlayerControl controls;
 
-        [Separator("Properties")]
+        [Separator("Speed")]
         [SerializeField, Tooltip("Move speed of the player"), PositiveValueOnly]
         private float moveSpeed;
 
+        [SerializeField, Tooltip("How much value to add to speed when upgraded"), PositiveValueOnly]
+        private float upgradeSpeedValue;
+
+        [Separator("Bomb")]
         [SerializeField, Tooltip("Prefab for the bomb"), PositiveValueOnly]
         private Bomb bombPrefab;
 
@@ -84,8 +89,6 @@ namespace Entities {
 
         private bool bombAvailable;
 
-        private int lives;
-
         protected override void OnAwake() {
             if (rb == null) {
                 rb = GetComponent<Rigidbody2D>();
@@ -97,10 +100,11 @@ namespace Entities {
 
             bombAvailable = true;
             currentDirection = Vector2.right;
-            lives = 3;
         }
 
         private void Update() {
+            if (GameManager.Instance.GameOver) { return; }
+            
             Vector2 input =UpdateMoveDirection();
 
             UpdateAnimationByInputDirection(input);
@@ -131,7 +135,7 @@ namespace Entities {
                     inputDirection += Vector2.right;
                 }
 
-                rb.velocity = moveSpeed * inputDirection;
+                rb.velocity = moveSpeed * inputDirection.normalized;
 
                 currentDirection = inputDirection == Vector2.zero ? currentDirection : inputDirection;
 
@@ -155,22 +159,17 @@ namespace Entities {
                     }
                 }
 
+                SetFacingDirection(direction);
+            }
+
+            void SetFacingDirection(Vector2 direction) {
+                Vector2 facing = transform.localScale;
+                facing.x = direction.x == 0 ? facing.x : direction.x;
+
+                transform.localScale = facing;
             }
 
             #endregion
-        }
-
-        private void OnCollisionEnter2D(Collision2D other) {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-
-            if (enemy != null) {
-                --lives;
-                // TODO: Update UI
-
-                if (lives <= 0) {
-                    TriggerDeath();
-                }
-            }
         }
 
         private void ThrowBomb() {
@@ -187,8 +186,27 @@ namespace Entities {
             bombAvailable = true;
         }
 
-        private void TriggerDeath() { 
-            // TODO
+        private void OnCollisionEnter2D(Collision2D other) {
+            if (other.gameObject.CompareTag("Enemy")) {
+                Debug.Log("Hit eneymy");
+
+                TriggerHit();
+            }
+        }
+
+        private void TriggerHit() {
+            // TODO: Animation
+
+            EnemyManager.Instance.KillAllEnemies();
+            GameManager.Instance.DecreaseHealth();
+        }
+
+        internal void Upgrade() {
+            moveSpeed += upgradeSpeedValue;
+
+            // Slightly decrease bomb cooldown
+
+            bombCooldown -= (bombCooldown * 0.0025f);
         }
     }
 }

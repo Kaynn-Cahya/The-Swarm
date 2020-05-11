@@ -38,7 +38,7 @@ namespace Entities {
         }
 
         internal void Throw(Vector2 throwDirection) {
-            rb.velocity = throwDirection * moveSpeed;
+            rb.velocity = throwDirection.normalized * moveSpeed;
         }
 
         private void OnCollisionEnter2D(Collision2D other) {

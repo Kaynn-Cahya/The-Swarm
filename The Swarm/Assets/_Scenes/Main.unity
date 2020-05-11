@@ -136,7 +136,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &115929737
 Transform:
@@ -169,11 +169,13 @@ MonoBehaviour:
     spawnIntervals: 5
     spawnCount: 5
     spawnTimeGap: 0.15
+  upgradeSpawnCountValue: 0.25
   enemyPrefab: {fileID: 5808638166550676638, guid: ac5b81eb284268a4db761ff63277f89e,
     type: 3}
   enemyProperties:
-    enemyMoveSpeed: 2.75
+    enemyMoveSpeed: 2.85
     enemyRotateSpeed: 365
+  upgradeSpeedValues: 0.05
 --- !u!1 &147166337
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,7 +754,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &670312130
 MonoBehaviour:
@@ -973,6 +975,7 @@ MonoBehaviour:
     right: 275
     bomb: 122
   moveSpeed: 3
+  upgradeSpeedValue: 0.05
   bombPrefab: {fileID: 2207004262501191635, guid: 3700a3019f436684b9fd57a646069e69,
     type: 3}
   bombCooldown: 2.5
@@ -1057,7 +1060,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &994048126
 Transform:
@@ -1120,7 +1123,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 103.333336, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1009214410
 MonoBehaviour:
@@ -1137,7 +1140,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6089,12 +6092,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1416737017}
   - component: {fileID: 1416737018}
+  - component: {fileID: 1416737019}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1416737017
 Transform:
@@ -6126,6 +6130,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7677201fd6746634bbcdc39bf8c218e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1416737019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416737016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b133b1e5a13b841b8003a33e2d1c05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameInterface:
+    healthCounts:
+    - {fileID: 1486516130}
+    - {fileID: 1009214408}
+    - {fileID: 1680844201}
+    scoreText: {fileID: 607542400}
+  upgradeIntervals: 10
 --- !u!1 &1436292244
 GameObject:
   m_ObjectHideFlags: 0
@@ -6141,7 +6164,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1436292245
 Transform:
@@ -6210,7 +6233,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 103.333336, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1486516132
 MonoBehaviour:
@@ -6227,7 +6250,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6285,7 +6308,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 103.333336, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1680844203
 MonoBehaviour:
@@ -6302,7 +6325,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6444,7 +6467,7 @@ MonoBehaviour:
   m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0

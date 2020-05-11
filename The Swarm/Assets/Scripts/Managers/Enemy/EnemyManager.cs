@@ -21,7 +21,7 @@ public class EnemyManager : MonoSingleton<EnemyManager> {
         [SerializeField, Tooltip("The gap timeframe between the spawning of each individual enemy"), Range(0.1f, 0.5f)]
         private float spawnTimeGap;
 
-        public float SpawnIntervals { get => spawnIntervals; }
+        public float SpawnIntervals { get => spawnIntervals; set => spawnIntervals = value; }
         public float SpawnCount { get => spawnCount; set => spawnCount = value; }
         public float SpawnTimeGap { get => spawnTimeGap; }
     }
@@ -35,12 +35,18 @@ public class EnemyManager : MonoSingleton<EnemyManager> {
     [SerializeField]
     private SpawnProperties spawnProperties;
 
+    [SerializeField, Tooltip("How much more enemies to spawn when upgraded"), PositiveValueOnly]
+    private float upgradeSpawnCountValue;
+
     [Separator("Enemy")]
     [SerializeField, Tooltip("Prefab for spawning the enemy"), MustBeAssigned]
     private Enemy enemyPrefab;
 
     [SerializeField]
     private EnemyProperties enemyProperties;
+
+    [SerializeField, Tooltip("Value add to enemy move speed when upgraded"), PositiveValueOnly]
+    private float upgradeSpeedValues;
 
     private GameCache<Enemy> EnemyCache {
         get => CacheManager.Instance.EnemyCache;
@@ -57,6 +63,8 @@ public class EnemyManager : MonoSingleton<EnemyManager> {
     }
 
     private void Update() {
+        if (GameManager.Instance.GameOver) { return; }
+
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer >= spawnProperties.SpawnIntervals) {
@@ -90,5 +98,30 @@ public class EnemyManager : MonoSingleton<EnemyManager> {
             newEnemy.Initalize(enemyProperties, spawnLocation);
         }
         #endregion
+    }
+
+    internal void KillAllEnemies() {
+
+        EnemyCache.Foreach(KillIfAlive);
+
+        #region Local_Function
+
+        void KillIfAlive(Enemy enemy) {
+            if (enemy.gameObject.activeInHierarchy) {
+                enemy.Kill();
+            }
+        }
+
+        #endregion
+    }
+
+    internal void Upgrade() {
+        spawnProperties.SpawnCount += upgradeSpawnCountValue;
+        enemyProperties.EnemyMoveSpeed += upgradeSpeedValues;
+        enemyProperties.EnemyRotateSpeed += upgradeSpeedValues;
+
+        // Slightly reduce spawn interval
+        float spawnIntervalReduction = spawnProperties.SpawnIntervals * (0.001f);
+        spawnProperties.SpawnIntervals -= spawnIntervalReduction;
     }
 }

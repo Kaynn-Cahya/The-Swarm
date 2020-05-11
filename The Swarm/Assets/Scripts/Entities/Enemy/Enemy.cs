@@ -1,4 +1,5 @@
-﻿using MyBox;
+﻿using Managers;
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,8 @@ namespace Entities {
         }
 
         private void Update() {
+            if (GameManager.Instance.GameOver) { return; }
+
             transform.position = body.transform.position;
         }
 
@@ -30,6 +33,8 @@ namespace Entities {
         /// Kill this enemy.
         /// </summary>
         internal void Kill() {
+            GameManager.Instance.IncreaseScore();
+
             gameObject.SetActive(false);
             body.Enable(false);
         }
