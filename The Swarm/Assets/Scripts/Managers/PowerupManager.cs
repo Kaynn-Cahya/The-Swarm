@@ -3,53 +3,62 @@ using MyBox;
 using UnityEngine;
 
 namespace Managers {
-    public class PowerupManager : MonoBehaviour {
-        [SerializeField, Tooltip("Intervals between each spawning of the powerup"), PositiveValueOnly]
-        private float spawnIntervals;
+	public class PowerupManager : MonoSingleton<PowerupManager> {
+		[SerializeField, Tooltip("Intervals between each spawning of the powerup"), PositiveValueOnly]
+		private float spawnIntervals;
 
-        [SerializeField, Tooltip("Prefab for the powerup"), MustBeAssigned]
-        private Powerup powerupPrefab;
+		[SerializeField, Tooltip("Prefab for the powerup"), MustBeAssigned]
+		private Powerup powerupPrefab;
 
-        private Camera mainCamera;
+		private Camera mainCamera;
 
-        private float spawnTimer;
+		public bool PowerUpActive;
 
-        private void Start() {
-            spawnTimer = 0f;
-            mainCamera = Camera.main;
-        }
+		private float spawnTimer;
 
-        private void Update() {
-            if (GameManager.Instance.GameOver) { return; }
+		protected override void OnAwake() {
+		}
 
-            spawnTimer += Time.deltaTime;
+		private void Start() {
+			spawnTimer = 0f;
+			mainCamera = Camera.main;
+		}
 
-            if (spawnTimer >= spawnIntervals) {
-                spawnTimer = 0f;
-                SpawnPowerup();
-            }
-        }
+		private void Update() {
+			if(GameManager.Instance.GameOver) { return; }
 
-        private void SpawnPowerup() {
+			if(!PowerUpActive) {
+				spawnTimer += Time.deltaTime;
+			}
 
-            Powerup powerup = Instantiate(powerupPrefab);
-            powerup.transform.position = GeneratePosition();
+			if(spawnTimer >= spawnIntervals) {
+				spawnTimer = 0f;
+				SpawnPowerup();
+			}
+		}
 
-            #region Local_Function
+		private void SpawnPowerup() {
 
-            Vector2 GeneratePosition() {
-                Vector2 randPosition;
+			Powerup powerup = Instantiate(powerupPrefab);
+			powerup.transform.position = GeneratePosition();
 
-                // Generate random position on screen.
-                // Ensure position is not near the player.
-                do {
-                    randPosition = mainCamera.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
-                } while (Vector2.Distance(Player.Instance.transform.position, randPosition) <= 1);
+			PowerUpActive = true;
 
-                return randPosition;
-            }
+			#region Local_Function
 
-            #endregion
-        }
-    }
+			Vector2 GeneratePosition() {
+				Vector2 randPosition;
+
+				// Generate random position on screen.
+				// Ensure position is not near the player.
+				do {
+					randPosition = mainCamera.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+				} while(Vector2.Distance(Player.Instance.transform.position, randPosition) <= 1);
+
+				return randPosition;
+			}
+
+			#endregion
+		}
+	}
 }

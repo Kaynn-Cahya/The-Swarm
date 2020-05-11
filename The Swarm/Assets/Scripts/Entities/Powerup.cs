@@ -2,18 +2,20 @@
 using UnityEngine;
 
 namespace Entities {
-    [RequireComponent(typeof(Collider2D))]
-    public class Powerup : MonoBehaviour {
+	[RequireComponent(typeof(Collider2D))]
+	public class Powerup : MonoBehaviour {
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            if (other.gameObject.CompareTag("Player")) {
-                EffectManager.Instance.CreateStarRing(transform.position);
+		private void OnCollisionEnter2D(Collision2D other) {
+			if(other.gameObject.CompareTag("Player")) {
+				PowerupManager.Instance.PowerUpActive = false;
 
-                SoundManager.Instance.PlayAudioByType(AudioType.Powerup_Collect);
+				EffectManager.Instance.CreateStarRing(transform.position);
 
-                EnemyManager.Instance.KillAllEnemies();
-                Destroy(gameObject);
-            }
-        }
-    }
+				SoundManager.Instance.PlayAudioByType(AudioType.Powerup_Collect);
+
+				EnemyManager.Instance.KillAllEnemies();
+				Destroy(gameObject);
+			}
+		}
+	}
 }

@@ -7,90 +7,103 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Managers {
-    public class GameManager : MonoSingleton<GameManager> {
+	public class GameManager : MonoSingleton<GameManager> {
 
-        #region GameInterface
-        [System.Serializable]
-        private class GameInterface {
+		#region GameInterface
+		[System.Serializable]
+		private class GameInterface {
 
-            [SerializeField]
-            private List<Image> healthCounts;
+			[SerializeField]
+			private List<Image> healthCounts;
 
-            [SerializeField, MustBeAssigned]
-            private TextMeshProUGUI scoreText;
+			[SerializeField, MustBeAssigned]
+			private TextMeshProUGUI scoreText;
 
-            public int TotalHealthCount { get => healthCounts.Count; }
+			[SerializeField, MustBeAssigned]
+			private GameObject gameOverCanvas;
 
-            public void DecreaseHealth() {
-                foreach (var health in healthCounts) {
-                    if (health.IsActive()) {
-                        health.enabled = false;
-                        return;
-                    }
-                }
 
-                Debug.LogWarning("No more health in interface to disable.");
-            }
+			public int TotalHealthCount { get => healthCounts.Count; }
 
-            public void SetScore(int score) {
-                scoreText.text = score.ToString();
-            }
-        }
-        #endregion
+			public void DecreaseHealth() {
+				foreach(var health in healthCounts) {
+					if(health.IsActive()) {
+						health.enabled = false;
+						return;
+					}
+				}
 
-        [SerializeField]
-        private GameInterface gameInterface;
+				Debug.LogWarning("No more health in interface to disable.");
+			}
 
-        [SerializeField, Tooltip("How many enemies to kill before upgrade"), PositiveValueOnly]
-        private int upgradeIntervals;
+			public void SetScore(int score) {
+				scoreText.text = score.ToString();
+			}
 
-        public bool GameOver { get; private set; }
+			public void ToggleGameOverCanvas(bool state) {
+				gameOverCanvas.SetActive(state);
+			}
+		}
+		#endregion
 
-        public int Lives { get; private set; }
+		[SerializeField]
+		private GameInterface gameInterface;
 
-        public int Score { get; private set; }
+		[SerializeField, Tooltip("How many enemies to kill before upgrade"), PositiveValueOnly]
+		private int upgradeIntervals;
 
-        private int upgradeCounter;
+		public bool GameOver { get; private set; }
 
-        protected override void OnAwake() {
-            Lives = gameInterface.TotalHealthCount;
-            Score = 0;
-            GameOver = false;
+		public int Lives { get; private set; }
 
-            gameInterface.SetScore(Score);
-            upgradeCounter = 0;
-        }
+		public int Score { get; private set; }
 
-        internal void TriggerGameOver() {
-            GameOver = true;
-            // TODO: Flash game over screen.
-        }
+		private int upgradeCounter;
 
-        internal void DecreaseHealth() {
-            --Lives;
-            gameInterface.DecreaseHealth();
+		protected override void OnAwake() {
+			Lives = gameInterface.TotalHealthCount;
+			Score = 0;
+			GameOver = false;
 
-            if (Lives <= 0) {
-                TriggerGameOver();
-            }
-        }
+			gameInterface.SetScore(Score);
+			upgradeCounter = 0;
+		}
 
-        internal void IncreaseScore() { 
-            ++Score;
-            gameInterface.SetScore(Score);
+		internal void TriggerGameOver() {
+			GameOver = true;
+			AdjustTimeScale(0);
+			gameInterface.ToggleGameOverCanvas(true);
+		}
 
-            ++upgradeCounter;
-            if (upgradeCounter >= upgradeIntervals) {
-                EnemyManager.Instance.Upgrade();
-                Player.Instance.Upgrade();
+		internal void DecreaseHealth() {
+			--Lives;
+			gameInterface.DecreaseHealth();
 
-                // Increase the next upgrade threshold
-                upgradeIntervals += Mathf.CeilToInt(upgradeIntervals * 0.001f);
+			if(Lives <= 0) {
+				TriggerGameOver();
+			}
+		}
 
-                upgradeCounter = 0;
+		internal void IncreaseScore() {
+			++Score;
+			gameInterface.SetScore(Score);
 
-                SoundManager.Instance.PlayAudioByType(AudioType.Difficulty_Increase);
-            }
-        }
-    }
+			++upgradeCounter;
+			if(upgradeCounter >= upgradeIntervals) {
+				EnemyManager.Instance.Upgrade();
+				Player.Instance.Upgrade();
+
+				// Increase the next upgrade threshold
+				upgradeIntervals += Mathf.CeilToInt(upgradeIntervals * 0.001f);
+
+				upgradeCounter = 0;
+
+				SoundManager.Instance.PlayAudioByType(AudioType.Difficulty_Increase);
+			}
+		}
+
+		internal void AdjustTimeScale(float timeScale) {
+			Time.timeScale = timeScale;
+		}
+	}
 }
