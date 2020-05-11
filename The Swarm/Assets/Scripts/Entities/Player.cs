@@ -3,6 +3,7 @@ using Managers.Timers;
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 namespace Entities {
@@ -287,6 +288,11 @@ namespace Entities {
 			bombCooldown -= (bombCooldown * 0.025f);
 
 			reloadBar.SetProperties(moveSpeed * 2f, bombCooldown);
+		}
+
+		internal void Kill() {
+			Destroy(reloadBar.gameObject);
+			Destroy(gameObject);
 		}
 	}
 }

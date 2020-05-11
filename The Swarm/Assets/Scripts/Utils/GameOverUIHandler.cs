@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Managers;
+using UnityEngine.UI;
+using MyBox;
 
-public class GameOverUIHandler : MonoBehaviour {
+public class GameOverUIHandler : MonoSingleton<GameOverUIHandler> {
 	private enum GameOverSelection {
 		Menu,
 		Again
@@ -15,12 +17,18 @@ public class GameOverUIHandler : MonoBehaviour {
 
 	private GameOverSelection currentSelection = GameOverSelection.Again;
 
+	private bool interactable;
+
+	protected override void OnAwake() {
+	}
+
 	private void Start() {
+		interactable = false;
 		UpdateText();
 	}
 
 	private void Update() {
-		if(!GameManager.Instance.GameOver) { return; }
+		if(!GameManager.Instance.GameOver && !interactable) { return; }
 
 		UpdatePlayerSelection();
 		HandleSelection();
@@ -32,7 +40,7 @@ public class GameOverUIHandler : MonoBehaviour {
 			currentSelection = GameOverSelection.Menu;
 			SoundManager.Instance.PlayAudioByType(AudioType.UI_Select);
 			UpdateText();
-		} else if((Input.GetAxisRaw("Horizontal") > 0 || Input.GetKeyDown(KeyCode.LeftArrow)) && currentSelection != GameOverSelection.Again) {
+		} else if((Input.GetAxisRaw("Horizontal") > 0 || Input.GetKeyDown(KeyCode.RightArrow)) && currentSelection != GameOverSelection.Again) {
 			currentSelection = GameOverSelection.Again;
 			SoundManager.Instance.PlayAudioByType(AudioType.UI_Select);
 			UpdateText();
@@ -74,4 +82,38 @@ public class GameOverUIHandler : MonoBehaviour {
 				break;
 		}
 	}
+
+	internal void FadeIn() {
+		StartCoroutine(FadeInCoroutine());
+	}
+
+	private IEnumerator FadeInCoroutine() {
+		Graphic[] allGraphics = GetComponentsInChildren<Graphic>();
+
+		float progress = 0f;
+		float cAlpha;
+		do {
+			cAlpha = Mathf.Lerp(0f, 1f, progress);
+			SetAllRendererAlpha(cAlpha);
+
+			progress += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		} while (progress < 1f);
+
+		yield return null;
+		GameManager.Instance.AdjustTimeScale(0f);
+		interactable = true;
+
+		#region Local_Function
+
+		void SetAllRendererAlpha(float newAlpha) {
+			foreach (var graphic in allGraphics) {
+				var temp = graphic.color;
+				temp.a = newAlpha;
+				graphic.color = temp;
+			}
+		}
+
+        #endregion
+    }
 }

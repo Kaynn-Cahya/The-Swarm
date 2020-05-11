@@ -97,9 +97,11 @@ namespace Managers {
 				GlobalValues.HighScore = Score;
 			}
 
-			AdjustTimeScale(0);
+			Player.Instance.Kill();
+
 			gameOverInterface.SetScores(Score, GlobalValues.HighScore);
 			gameOverInterface.ToggleGameOverCanvas(true);
+			GameOverUIHandler.Instance.FadeIn();
 		}
 
 		internal void DecreaseHealth() {
