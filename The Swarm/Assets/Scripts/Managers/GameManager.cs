@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Managers {
     public class GameManager : MonoSingleton<GameManager> {
@@ -13,23 +14,17 @@ namespace Managers {
         private class GameInterface {
 
             [SerializeField]
-            private List<GameObject> healthCounts;
+            private List<Image> healthCounts;
 
             [SerializeField, MustBeAssigned]
             private TextMeshProUGUI scoreText;
 
             public int TotalHealthCount { get => healthCounts.Count; }
 
-            public void ResetHealth() {
-                foreach (var health in healthCounts) {
-                    health.SetActive(true);
-                }
-            }
-
             public void DecreaseHealth() {
                 foreach (var health in healthCounts) {
-                    if (health.activeInHierarchy) {
-                        health.SetActive(false);
+                    if (health.IsActive()) {
+                        health.enabled = false;
                         return;
                     }
                 }

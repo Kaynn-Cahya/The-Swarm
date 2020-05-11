@@ -6408,9 +6408,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInterface:
     healthCounts:
-    - {fileID: 1486516130}
-    - {fileID: 1009214408}
-    - {fileID: 1680844201}
+    - {fileID: 1680844203}
+    - {fileID: 1009214410}
+    - {fileID: 1486516132}
     scoreText: {fileID: 607542400}
   upgradeIntervals: 10
 --- !u!1 &1436292244
