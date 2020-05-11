@@ -121,7 +121,7 @@ public class EnemyManager : MonoSingleton<EnemyManager> {
 		enemyProperties.EnemyRotateSpeed += upgradeSpeedValues;
 
 		// Slightly reduce spawn interval
-		float spawnIntervalReduction = spawnProperties.SpawnIntervals * (0.001f);
+		float spawnIntervalReduction = spawnProperties.SpawnIntervals * (0.05f);
 		spawnProperties.SpawnIntervals -= spawnIntervalReduction;
 	}
 }
