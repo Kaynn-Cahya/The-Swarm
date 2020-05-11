@@ -5,8 +5,8 @@ namespace Entities {
 	[RequireComponent(typeof(Collider2D))]
 	public class Powerup : MonoBehaviour {
 
-		private void OnCollisionEnter2D(Collision2D other) {
-			if(other.gameObject.CompareTag("Player")) {
+		private void OnTriggerEnter2D(Collider2D other) {
+			if(other.CompareTag("Player")) {
 				PowerupManager.Instance.PowerUpActive = false;
 
 				EffectManager.Instance.CreateStarRing(transform.position);

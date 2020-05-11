@@ -22,7 +22,8 @@ namespace Managers {
 		}
 
 		void Update() {
-			if (Input.anyKeyDown && !isTransitioning) {
+			if(Input.anyKeyDown && !isTransitioning) {
+				SoundManager.Instance.PlayAudioByType(AudioType.Game_Start);
 				isTransitioning = true;
 				StartCoroutine(GameSceneTransition());
 			}

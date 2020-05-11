@@ -4,58 +4,76 @@ using UnityEngine;
 using MyBox;
 
 namespace Managers {
-    public class SoundManager : MonoSingleton<SoundManager> {
+	public class SoundManager : MonoSingleton<SoundManager> {
 
-        #region AudioFile
-        [System.Serializable]
-        private struct AudioFile {
-            [SerializeField, Tooltip("The audio clip matching the audio type"), MustBeAssigned]
-            private AudioClip audioClip;
+		#region AudioFile
+		[System.Serializable]
+		private struct AudioFile {
+			[SerializeField, Tooltip("The audio clip matching the audio type"), MustBeAssigned]
+			private AudioClip audioClip;
 
-            [SerializeField, Tooltip("The audio type matching the audio clip"), SearchableEnum]
-            private AudioType audioType;
+			[SerializeField, Tooltip("The audio type matching the audio clip"), SearchableEnum]
+			private AudioType audioType;
 
-            public AudioClip AudioClip { get => audioClip; }
-            public AudioType AudioType { get => audioType; }
-        }
-        #endregion
+			public AudioClip AudioClip { get => audioClip; }
+			public AudioType AudioType { get => audioType; }
 
-        [SerializeField, Tooltip("The audio output to use."), MustBeAssigned]
-        private AudioSource source;
+			public bool playOnAwake;
+			[ConditionalField(nameof(playOnAwake))]
+			public bool isLooping;
+		}
+		#endregion
 
-        [SerializeField, Tooltip("The list of playable audio files."), MustBeAssigned]
-        private List<AudioFile> audioFiles;
+		[SerializeField, Tooltip("The audio output to use."), MustBeAssigned]
+		private AudioSource source;
 
-        protected override void OnAwake() {
-            if (audioFiles.IsNullOrEmpty()) {
-                Debug.LogWarning("No audio files is loaded into sound manager!");
-            }
-        }
+		[SerializeField, Tooltip("The list of playable audio files."), MustBeAssigned]
+		private List<AudioFile> audioFiles;
 
-        internal void PlayAudioByType(AudioType audioType) {
+		protected override void OnAwake() {
+			if(audioFiles.IsNullOrEmpty()) {
+				Debug.LogWarning("No audio files is loaded into sound manager!");
+				return;
+			}
 
-            if (TryGetAudioClipToPlay(out AudioClip clipToPlay)) {
-                source.PlayOneShot(clipToPlay);
-            } else {
-                Debug.LogWarning("No Audio File found for " + audioType.ToString());
-            }
+			foreach(var audioFile in audioFiles) {
+				if(audioFile.playOnAwake) {
+					AudioSource BGMAudio = gameObject.AddComponent<AudioSource>();
+					BGMAudio.clip = audioFile.AudioClip;
 
-            #region Local_Function
+					if(audioFile.isLooping) {
+						BGMAudio.loop = true;
+					}
 
-            bool TryGetAudioClipToPlay(out AudioClip audioClip) {
-                audioClip = null;
+					BGMAudio.Play();
+				}
+			}
+		}
 
-                foreach (var audioFile in audioFiles) {
-                    if (audioFile.AudioType == audioType) {
-                        audioClip = audioFile.AudioClip;
-                        break;
-                    }
-                }
+		internal void PlayAudioByType(AudioType audioType) {
 
-                return audioClip != null;
-            }
+			if(TryGetAudioClipToPlay(out AudioClip clipToPlay)) {
+				source.PlayOneShot(clipToPlay);
+			} else {
+				Debug.LogWarning("No Audio File found for " + audioType.ToString());
+			}
 
-            #endregion
-        }
-    }
+			#region Local_Function
+
+			bool TryGetAudioClipToPlay(out AudioClip audioClip) {
+				audioClip = null;
+
+				foreach(var audioFile in audioFiles) {
+					if(audioFile.AudioType == audioType) {
+						audioClip = audioFile.AudioClip;
+						break;
+					}
+				}
+
+				return audioClip != null;
+			}
+
+			#endregion
+		}
+	}
 }

@@ -5,5 +5,6 @@ internal enum AudioType {
 	Bomb_Explode,
 	Difficulty_Increase,
 	Powerup_Collect,
-	UI_Select
+	UI_Select,
+	Game_Start
 }
