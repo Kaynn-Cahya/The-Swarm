@@ -284,8 +284,7 @@ namespace Entities {
 			moveSpeed += upgradeSpeedValue;
 
 			// Slightly decrease bomb cooldown
-
-			bombCooldown -= (bombCooldown * 0.0025f);
+			bombCooldown -= (bombCooldown * 0.025f);
 
 			reloadBar.SetProperties(moveSpeed * 2f, bombCooldown);
 		}

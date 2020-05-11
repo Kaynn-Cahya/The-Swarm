@@ -28,11 +28,11 @@ public class GameOverUIHandler : MonoBehaviour {
 
 	private void UpdatePlayerSelection() {
 
-		if(Input.GetAxisRaw("Horizontal") < 0 && currentSelection != GameOverSelection.Menu) {
+		if((Input.GetAxisRaw("Horizontal") < 0 || Input.GetKeyDown(KeyCode.LeftArrow)) && currentSelection != GameOverSelection.Menu) {
 			currentSelection = GameOverSelection.Menu;
 			SoundManager.Instance.PlayAudioByType(AudioType.UI_Select);
 			UpdateText();
-		} else if(Input.GetAxisRaw("Horizontal") > 0 && currentSelection != GameOverSelection.Again) {
+		} else if((Input.GetAxisRaw("Horizontal") > 0 || Input.GetKeyDown(KeyCode.LeftArrow)) && currentSelection != GameOverSelection.Again) {
 			currentSelection = GameOverSelection.Again;
 			SoundManager.Instance.PlayAudioByType(AudioType.UI_Select);
 			UpdateText();

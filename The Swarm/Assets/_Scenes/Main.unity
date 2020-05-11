@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: -0.25, y: 0.6}
-  bar: {fileID: 1409003881}
+  bar: {fileID: 1409003885}
 --- !u!1 &115929736
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnReference: {fileID: 558348839}
   spawnProperties:
-    spawnIntervals: 5
+    spawnIntervals: 4
     spawnCount: 5
     spawnTimeGap: 0.15
   upgradeSpawnCountValue: 0.25
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   upgradeSpeedValue: 0.05
   bombPrefab: {fileID: 2207004262501191635, guid: 3700a3019f436684b9fd57a646069e69,
     type: 3}
-  bombCooldown: 2.5
+  bombCooldown: 3
   animations:
     defaultIdle: {fileID: 7400000, guid: e6447b0408013a34887aacd1dc2e4f9d, type: 2}
     idleFront: {fileID: 7400000, guid: 0bc3bb0ce25115e4eb0c6aee0e6a0d79, type: 2}
@@ -6727,6 +6727,7 @@ GameObject:
   - component: {fileID: 1409003882}
   - component: {fileID: 1409003883}
   - component: {fileID: 1409003884}
+  - component: {fileID: 1409003885}
   m_Layer: 0
   m_Name: bar
   m_TagString: Untagged
@@ -6811,6 +6812,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1409003883}
+--- !u!114 &1409003885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409003881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f251064b039618e43856edcb3c01ef3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer: {fileID: 1409003883}
+  fadeTime: 1.1
 --- !u!1 &1416737016
 GameObject:
   m_ObjectHideFlags: 0
