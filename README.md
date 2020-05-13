@@ -1,6 +1,6 @@
 # The Swarm
 
-**Made in 3 days for ScoreSpace x 8 Bits to Infinity Jam | Theme: Swarms**
+**Made in 3 days for [ScoreSpace x 8 Bits to Infinity Jam](https://itch.io/jam/scorejam-8bti-arcade-controls) | Theme: Swarms**
 
 The end is near as The Swarm approaches! Defend yourself with unlimited supply of grenades and survive for as long as possible. Take caution as The Swarm gets stronger the more you kill.
 
