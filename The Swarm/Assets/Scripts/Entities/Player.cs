@@ -163,7 +163,7 @@ namespace Entities {
 				float yInput = Input.GetAxis("Vertical");
 
 				Vector2 inputDirection = new Vector2(xInput, yInput);
-				Debug.Log(inputDirection);
+				//Debug.Log(inputDirection);
 
 				if(inputDirection == Vector2.zero) {
 					if(Input.GetKey(controls.Up)) {
@@ -252,7 +252,7 @@ namespace Entities {
 
 		private void OnCollisionEnter2D(Collision2D other) {
 			if(other.gameObject.CompareTag("Enemy")) {
-				Debug.Log("Hit eneymy");
+				//Debug.Log("Hit eneymy");
 
 				TriggerHit();
 			}
